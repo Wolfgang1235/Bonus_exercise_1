@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -66,6 +67,14 @@ class DBconnectorTest {
         UserMapper userMapper = new UserMapper(dBconnector);
         User actual = userMapper.getUser(2);
         User expected = new User("Bob","Bobsen","40404040","Rolighedsvej 3");
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testChangeData() {
+        UserMapper userMapper = new UserMapper(dBconnector);
+        User actual = userMapper.editUserData(2,"phone","50505050");
+        User expected = new  User("Bob","Bobsen","50505050","Rolighedsvej 3");
         assertEquals(expected,actual);
     }
 }

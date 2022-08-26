@@ -64,4 +64,33 @@ public class UserMapper {
         return user;
 
     }
+
+    public User editUserData(int id, String property, String newValue) {
+        User user = null;
+        String sql = "";
+        if (property.equals("pw")) {
+            sql = "UPDATE usertable SET pw = ? where id = ?";
+        }
+        if (property.equals("phone")) {
+            sql = "UPDATE usertable SET phone = ? where id = ?";
+        }
+        if (property.equals("address")) {
+            sql = "UPDATE usertable SET address = ? where id = ?";
+        }
+        try (Connection connection = dBconnector.connection()){
+            try (PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setString(1,newValue);
+                ps.setInt(2,id);
+                ps.executeUpdate();
+                user = getUser(id);
+            } catch (SQLException sqlException) {
+                System.out.println("Fejl med sql");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
 }
